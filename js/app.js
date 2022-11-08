@@ -1,3 +1,4 @@
+// Funcion principal para iniciar todo el script
 function iniciarApp() {
 
 
@@ -9,7 +10,7 @@ function iniciarApp() {
     obtenerCategorias();
   }
   const favoritosDiv = document.querySelector('.favoritos');
-  // Se aplica operador logico AND
+
   favoritosDiv && obtenerFavoritos();
 
 
@@ -24,8 +25,10 @@ function iniciarApp() {
       .then(resultado => msotrarCategorias(resultado.categories))
   }
 
+  // Funcion mostrar categorias manipulando el DOM y mostrar las categorias en el select(option)
   function msotrarCategorias(categorias = []) {
     categorias.forEach(categoria => {
+      // Se aplica destructuring 
       const { strCategory } = categoria;
       const option = document.createElement('OPTION');
       option.value = strCategory;
@@ -34,6 +37,7 @@ function iniciarApp() {
     })
   }
 
+  // Funcion para seleccionar categoria con fetch
   function seleccionarCategoria(e) {
     const categoria = e.target.value;
     const url = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${categoria}`;
@@ -42,6 +46,7 @@ function iniciarApp() {
       .then(resultado => mostrarRecetas(resultado.meals))
   }
 
+  // Funcion mostrar recetas de manera dinamica
   function mostrarRecetas(recetas = []) {
 
     limpiarHtml(resultado);
@@ -51,7 +56,7 @@ function iniciarApp() {
     heading.textContent = recetas.length ? 'Resultados' : 'No Hay Resultados';
     resultado.appendChild(heading);
 
-    // Iterar en los resultados
+    // Se itera en los resultados
     recetas.forEach(receta => {
       const { idMeal, strMeal, strMealThumb } = receta;
 
@@ -82,7 +87,7 @@ function iniciarApp() {
       }
 
 
-      // Inyectar en el codigo HTML
+      // Se redenriza en el codigo HTML
       recetaCardBody.appendChild(recetaHeading);
       recetaCardBody.appendChild(recetaButton);
 
@@ -96,6 +101,7 @@ function iniciarApp() {
 
   }
 
+  // Funcion seleccionar receta con fetch
   function seleccionarReceta(id) {
     const url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
     fetch(url)
@@ -106,7 +112,7 @@ function iniciarApp() {
   function mostrarRecetaModal(receta) {
     const { idMeal, strInstructions, strMeal, strMealThumb } = receta;
 
-    // Añadir contenido al modal
+    // Se añade contenido al modal
     const modalTitle = document.querySelector('.modal .modal-title');
     const modalBody = document.querySelector('.modal .modal-body');
 
@@ -120,7 +126,7 @@ function iniciarApp() {
 
     const listGroup = document.createElement('UL');
     listGroup.classList.add('list-group');
-    // Mostrar cantidades e ingredientes
+    // Se muestran cantidades e ingredientes
     for (let i = 1; i <= 20; i++) {
       if (receta[`strIngredient${i}`]) {
         const ingrediente = receta[`strIngredient${i}`];
@@ -172,7 +178,7 @@ function iniciarApp() {
     modalFooter.appendChild(btnFavorito);
     modalFooter.appendChild(btnCerrarModal);
 
-    // Muestra el modal
+    // Se muestra el modal
     modal.show();
   }
 
@@ -223,6 +229,7 @@ function iniciarApp() {
     favoritosDiv.appendChild(noFavoritos);
   }
 
+  // Se crea una funcion para limpiar el html con paramentro para hacerla mas dinamica 
   function limpiarHtml(selector) {
     while (selector.firstChild) {
       selector.removeChild(selector.firstChild);
